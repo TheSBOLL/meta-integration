@@ -6,45 +6,45 @@
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                              NEW PACKAGES                                   │
 │                                                                             │
-│  ┌──────────────────────────────┐  ┌──────────────────────────────────┐   │
-│  │       deepface-core          │  │   face-processing-toolkit        │   │
-│  │                              │  │                                  │   │
-│  │  CLI Layer (Click)           │  │  CLI Layer (Click)               │   │
-│  │  ┌──────┐  ┌──────┐        │  │  ┌─────────┐  ┌──────┐  ┌──────┐│   │
-│  │  │train │  │merge │        │  │  │match-   │  │remask│  │mask- ││   │
-│  │  └──────┘  └──────┘        │  │  │pose    │  │      │  │train ││   │
-│  │                              │  │  └─────────┘  └──────┘  └──────┘│   │
-│  │  Config Layer (Pydantic)     │  │                                  │   │
-│  │  ┌──────────────────────┐   │  │  Config Layer (Pydantic)         │   │
-│  │  │TrainingConfig        │   │  │  ┌────────────────────────────┐ │   │
-│  │  │MergingConfig         │   │  │  │PoseMatchingConfig          │ │   │
-│  │  └──────────────────────┘   │  │  │RemaskingConfig             │ │   │
-│  │                              │  │  │MaskTrainingConfig          │ │   │
-│  │  Core Logic                  │  │  └────────────────────────────┘ │   │
-│  │  ┌──────────────────────┐   │  │                                  │   │
-│  │  │Trainer, Merger       │   │  │  Core Logic                      │   │
-│  │  │GridGenerator         │   │  │  ┌────────────────────────────┐ │   │
-│  │  └──────────────────────┘   │  │  │PoseMatcher, Remasker       │ │   │
-│  │                              │  │  │MaskTrainer, FacePartMasker │ │   │
-│  │  Pipeline Layer              │  │  └────────────────────────────┘ │   │
-│  │  ┌──────────────────────┐   │  │                                  │   │
-│  │  │TrainingPipeline      │   │  │  Models                          │   │
-│  │  │MergingPipeline       │   │  │  ┌────────────────────────────┐ │   │
-│  │  └──────────────────────┘   │  │  │FaceDetector, LandmarkDet   │ │   │
-│  │                              │  │  │MaskModel (DeepLabV3+)      │ │   │
-│  │  Utils                       │  │  └────────────────────────────┘ │   │
-│  │  ┌──────────────────────┐   │  │                                  │   │
-│  │  │dfl_wrapper, latent   │   │  │  Utils                           │   │
-│  │  │warping, grid, video  │   │  │  ┌────────────────────────────┐ │   │
-│  │  └──────────────────────┘   │  │  │alignment, masks, polygons  │ │   │
-│  │                              │  │  └────────────────────────────┘ │   │
-│  │  [Phase 2] Ivy Integration   │  │                                  │   │
-│  │  ┌──────────────────────┐   │  │  [Phase 2] Ivy Integration       │   │
-│  │  │SpiderAdapter         │   │  │  ┌────────────────────────────┐ │   │
-│  │  │PublishAdapter        │   │  │  │SpiderAdapter               │ │   │
-│  │  └──────────────────────┘   │  │  │PublishAdapter              │ │   │
-│  │                              │  │  └────────────────────────────┘ │   │
-│  └──────────────────────────────┘  └──────────────────────────────────┘   │
+│  ┌──────────────────────────────┐  ┌──────────────────────────────────┐     │
+│  │       deepface-core          │  │   face-processing-toolkit        │     │
+│  │                              │  │                                  │     │
+│  │  CLI Layer (Click)           │  │  CLI Layer (Click)               │     │
+│  │  ┌──────┐  ┌──────┐          │  │  ┌─────────┐  ┌──────┐  ┌──────┐ │     │
+│  │  │train │  │merge │          │  │  │match-   │  │remask│  │mask- │ │     │
+│  │  └──────┘  └──────┘          │  │  │pose    │  │      │  │train ││ │     │
+│  │                              │  │  └─────────┘  └──────┘  └──────┘ │     │
+│  │  Config Layer (Pydantic)     │  │                                  │     │
+│  │  ┌──────────────────────┐    │  │  Config Layer (Pydantic)         │     │
+│  │  │TrainingConfig        │    │  │  ┌────────────────────────────┐  │     │
+│  │  │MergingConfig         │    │  │  │PoseMatchingConfig          │  │     │
+│  │  └──────────────────────┘    │  │  │RemaskingConfig             │  │     │
+│  │                              │  │  │MaskTrainingConfig          │  │     │
+│  │  Core Logic                  │  │  └────────────────────────────┘  │     │
+│  │  ┌──────────────────────┐    │  │                                  │     │
+│  │  │Trainer, Merger       │    │  │  Core Logic                      │     │
+│  │  │GridGenerator         │    │  │  ┌────────────────────────────┐  │     │
+│  │  └──────────────────────┘    │  │  │PoseMatcher, Remasker       │  │     │
+│  │                              │  │  │MaskTrainer, FacePartMasker │  │     │
+│  │  Pipeline Layer              │  │  └────────────────────────────┘  │     │
+│  │  ┌──────────────────────┐    │  │                                  │     │
+│  │  │TrainingPipeline      │    │  │  Models                          │     │
+│  │  │MergingPipeline       │    │  │  ┌────────────────────────────┐  │     │
+│  │  └──────────────────────┘    │  │  │FaceDetector, LandmarkDet   │  │     │
+│  │                              │  │  │MaskModel (DeepLabV3+)      │  │     │
+│  │  Utils                       │  │  └────────────────────────────┘  │     │
+│  │  ┌──────────────────────┐    │  │                                  │     │
+│  │  │dfl_wrapper, latent   │    │  │  Utils                           │     │
+│  │  │warping, grid, video  │    │  │  ┌────────────────────────────┐  │     │
+│  │  └──────────────────────┘    │  │  │alignment, masks, polygons  │  │     │
+│  │                              │  │  └────────────────────────────┘  │     │
+│  │  [Phase 2] Ivy Integration   │  │                                  │     │
+│  │  ┌──────────────────────┐    │  │  [Phase 2] Ivy Integration       │     │
+│  │  │SpiderAdapter         │    │  │  ┌────────────────────────────┐  │     │
+│  │  │PublishAdapter        │    │  │  │SpiderAdapter               │  │     │
+│  │  └──────────────────────┘    │  │  │PublishAdapter              │  │     │
+│  │                              │  │  └────────────────────────────┘  │     │
+│  └──────────────────────────────┘  └──────────────────────────────────┘     │
 │                                                                             │
 │  Deployment: Bob artefacts                                                  │
 │  Repository: Stash                                                          │
@@ -108,7 +108,7 @@ User Input
                     │
                     ▼
 ┌─────────────────────────────────────────┐
-│              OUTPUT                      │
+│              OUTPUT                     │
 │                                         │
 │ output_dir/                             │
 │ ├── model/                              │
@@ -173,7 +173,7 @@ User Input
                     │
                     ▼
 ┌─────────────────────────────────────────┐
-│              OUTPUT                      │
+│              OUTPUT                     │
 │                                         │
 │ output_dir/                             │
 │ ├── rawrgb/                             │
@@ -402,26 +402,26 @@ Developer 3    ┌───────────────┐   ┌──�
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                        IVY INTEGRATION                                      │
 │                                                                             │
-│  ┌─────────────────────┐      ┌─────────────────────┐                      │
-│  │   SpiderAdapter     │      │   PublishAdapter    │                      │
-│  │                     │      │                     │                      │
-│  │ • query_datasets()  │      │ • publish_model()   │                      │
-│  │ • query_models()    │      │ • publish_output()  │                      │
-│  │ • query_aligned()   │      │ • track_deps()      │                      │
-│  │ • query_masks()     │      │ • create_version()  │                      │
-│  └─────────┬───────────┘      └──────────┬──────────┘                      │
-│            │                              │                                 │
-│            ▼                              ▼                                 │
-│  ┌─────────────────────────────────────────────────────────────┐           │
-│  │                     IVY DATABASE                            │           │
-│  │  ┌────────────┐  ┌────────────┐  ┌────────────┐            │           │
-│  │  │   Spider   │  │PipePublish │  │Dependencies│            │           │
-│  │  │  (Query)   │  │ (Publish)  │  │ (Lineage)  │            │           │
-│  │  └────────────┘  └────────────┘  └────────────┘            │           │
-│  └─────────────────────────────────────────────────────────────┘           │
+│  ┌─────────────────────┐      ┌─────────────────────┐                       │
+│  │   SpiderAdapter     │      │   PublishAdapter    │                       │
+│  │                     │      │                     │                       │
+│  │ • query_datasets()  │      │ • publish_model()   │                       │
+│  │ • query_models()    │      │ • publish_output()  │                       │
+│  │ • query_aligned()   │      │ • track_deps()      │                       │
+│  │ • query_masks()     │      │ • create_version()  │                       │
+│  └─────────┬───────────┘      └──────────┬──────────┘                       │
+│            │                             │                                  │
+│            ▼                             ▼                                  │
+│  ┌─────────────────────────────────────────────────────────────┐            │
+│  │                     IVY DATABASE                            │            │
+│  │  ┌────────────┐  ┌────────────┐  ┌────────────┐             │            │
+│  │  │   Spider   │  │PipePublish │  │Dependencies│             │            │
+│  │  │  (Query)   │  │ (Publish)  │  │ (Lineage)  │             │            │
+│  │  └────────────┘  └────────────┘  └────────────┘             │            │
+│  └─────────────────────────────────────────────────────────────┘            │
 │                                                                             │
 │  Backwards Compatible:                                                      │
-│  • Phase 1 code continues to work with local paths                         │
-│  • Ivy is optional - only used when --stem flags provided                  │
+│  • Phase 1 code continues to work with local paths                          │
+│  • Ivy is optional - only used when --stem flags provided                   │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```

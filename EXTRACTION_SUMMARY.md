@@ -1,191 +1,302 @@
-# Metaface Core Extraction - Executive Summary
+# 📋 Metaface Core Extraction - Executive Summary
 
-## Overview
+<div align="center">
 
-Extract 7 core deepfake commands from metaface into **2 standalone packages** deployed via **Bob**.
+![Status](https://img.shields.io/badge/Status-Ready%20for%20Implementation-success?style=for-the-badge)
+![Packages](https://img.shields.io/badge/Packages-2-blue?style=for-the-badge)
+![Commands](https://img.shields.io/badge/Commands-7-orange?style=for-the-badge)
+![Timeline](https://img.shields.io/badge/Timeline-6%20Weeks-purple?style=for-the-badge)
 
-| Package | Commands | Purpose |
-|---------|----------|---------|
-| **deepface-core** | train, merge | Model training and face merging |
-| **face-processing-toolkit** | match-pose, remask, mask-train, face-part-mask, export-dfm | Face processing and masking |
+**Executive summary for stakeholders and team leads**
 
-**Repository**: Stash  
-**Deployment**: Bob artefacts  
-**Timeline**: 6 weeks (3 developers)
+[Extraction Plan](./EXTRACTION_PLAN.md) • [Architecture](./ARCHITECTURE_DIAGRAMS.md) • [Quick Reference](./QUICK_REFERENCE.md) • [File Map](./FILE_EXTRACTION_MAP.md)
+
+</div>
 
 ---
 
-## Two-Phase Approach
+## 🎯 Overview
+
+Extract **7 core deepfake commands** from the metaface repository into **2 standalone packages** deployed via **Bob**.
+
+```mermaid
+flowchart LR
+    subgraph Source["Metaface (Source)"]
+        S1[Interactive Prompts]
+        S2[Hardcoded Paths]
+        S3[Mixed Business Logic]
+    end
+    
+    subgraph Target["New Packages (Target)"]
+        T1[CLI + Python API]
+        T2[Any Path Support]
+        T3[Clean Architecture]
+    end
+    
+    Source -->|Extract & Modernize| Target
+    
+    style Source fill:#ffcccc
+    style Target fill:#ccffcc
+```
+
+---
+
+## 📦 Packages
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### 🧠 deepface-core
+
+**Model training and face merging**
+
+| Command | Description |
+|:--------|:------------|
+| `dfc train` | Train SAEHD models |
+| `dfc merge` | Merge onto plates |
+
+**Key Features:**
+- Complete training configuration (50+ params)
+- All merge modes (raw_rgb, raw_pred, seamless)
+- Grid generation
+- Video output
+
+</td>
+<td width="50%" valign="top">
+
+### 🎭 face-processing-toolkit
+
+**Face processing and masking tools**
+
+| Command | Description |
+|:--------|:------------|
+| `fpt match-pose` | Match poses |
+| `fpt remask` | Apply XSeg masks |
+| `fpt mask-train` | Train mask models |
+| `fpt face-part-mask` | Generate part masks |
+| `fpt export-dfm` | Export to DFM |
+
+</td>
+</tr>
+</table>
+
+---
+
+## 📅 Two-Phase Approach
+
+```mermaid
+timeline
+    title Project Timeline
+    
+    section Phase 1
+        Week 1-3 : Core Packages
+                 : CLI + Python API
+                 : Works with any paths
+                 : Bob deployment
+    
+    section Phase 2
+        Week 4-6 : Ivy Integration
+                 : Spider queries
+                 : PipePublish
+                 : Backwards compatible
+```
 
 ### Phase 1: Core Packages (Weeks 1-3)
-- Standalone packages working with **any file paths**
-- CLI interfaces via Click
-- Python APIs for scripting
-- Type-safe configuration via Pydantic
-- Comprehensive test coverage
-- Deployed via Bob
+
+> Standalone packages working with **any file paths**
+
+- ✅ CLI interfaces via Click
+- ✅ Python APIs for scripting
+- ✅ Type-safe configuration via Pydantic
+- ✅ Comprehensive test coverage
+- ✅ Deployed via Bob
 
 ### Phase 2: Ivy Integration (Weeks 4-6)
-- Spider adapters for querying datasets/models
-- PipePublish adapters for publishing outputs
-- Dependency tracking and model lineage
-- **100% backwards compatible** with Phase 1
+
+> Spider queries + PipePublish (**backwards compatible**)
+
+- ✅ Query datasets/models from Ivy
+- ✅ Publish outputs to Ivy
+- ✅ Dependency tracking
+- ✅ Model lineage
+- ✅ Local paths still work!
 
 ---
 
-## Package Summary
+## 👥 Team & Timeline
 
-### deepface-core
-
-**Commands**:
-- `dfc train` - Train SAEHD face swap models
-- `dfc merge` - Merge trained model onto plates
-
-**Structure**:
-```
-deepface-core/
-├── cli/         # Click CLIs
-├── config/      # Pydantic configs
-├── core/        # Trainer, Merger, GridGenerator
-├── pipelines/   # High-level APIs
-├── utils/       # DFL wrapper, latent, warping, etc.
-└── ivy/         # Phase 2: Spider/PipePublish
-```
-
-**Dependencies**: torch, metaswap, DFLObjects, pydantic, click
-
-### face-processing-toolkit
-
-**Commands**:
-- `fpt match-pose` - Match source faces to destination poses
-- `fpt remask` - Apply XSeg masks to aligned faces
-- `fpt mask-train` - Train XSeg mask models
-- `fpt face-part-mask` - Generate face part masks
-- `fpt export-dfm` - Export model to DFM format
-
-**Structure**:
-```
-face-processing-toolkit/
-├── cli/         # Click CLIs (5 commands)
-├── config/      # Pydantic configs
-├── core/        # PoseMatcher, Remasker, etc.
-├── models/      # FaceDetector, LandmarkDetector, MaskModel
-├── data/        # Dataset, augmentations
-├── pipelines/   # High-level APIs
-├── utils/       # Alignment, masks, polygons
-└── ivy/         # Phase 2: Spider/PipePublish
-```
-
-**Dependencies**: torch, segmentation-models-pytorch, DFLObjects, pydantic, click
-
----
-
-## Usage Examples
-
-### CLI
-
-```bash
-# Train
-dfc train --model my_model --src /path/to/src --dst /path/to/dst --output /path/to/output
-
-# Merge
-dfc merge --model /path/to/model --plates /path/to/plates --aligned /path/to/aligned --output /path/to/output
-
-# Face tools
-fpt match-pose --src /path/to/src --dst /path/to/dst --output /path/to/output
-fpt remask --input /path/to/aligned --checkpoint /path/to/mask.pt
-```
-
-### Python API
-
-```python
-from deepface_core import TrainingConfig, TrainingPipeline
-from pathlib import Path
-
-config = TrainingConfig(
-    model_name="my_model",
-    src_dataset=Path("/data/src"),
-    dst_dataset=Path("/data/dst"),
-    output_dir=Path("/output"),
-    resolution=128,
-    batch_size=8,
-)
-
-pipeline = TrainingPipeline(config)
-pipeline.train()
-```
-
-### Phase 2: With Ivy
-
-```bash
-dfc train --src-stem "SHOW/shots/shot_010" --dst-stem "SHOW/assets/person_b" --publish --kind "saehd"
+```mermaid
+gantt
+    title 6-Week Implementation Plan
+    dateFormat  YYYY-MM-DD
+    
+    section Dev 1
+    Training Core       :d1a, 2024-01-01, 7d
+    Training Advanced   :d1b, after d1a, 7d
+    Documentation       :d1c, after d1b, 7d
+    Spider (datasets)   :d1d, after d1c, 7d
+    Publish (models)    :d1e, after d1d, 7d
+    Integration         :d1f, after d1e, 7d
+    
+    section Dev 2
+    Merging Core        :d2a, 2024-01-01, 7d
+    Merging Advanced    :d2b, after d2a, 7d
+    Documentation       :d2c, after d2b, 7d
+    Spider (plates)     :d2d, after d2c, 7d
+    Publish (merged)    :d2e, after d2d, 7d
+    Integration         :d2f, after d2e, 7d
+    
+    section Dev 3
+    Face Tools Setup    :d3a, 2024-01-01, 7d
+    All Face Commands   :d3b, after d3a, 7d
+    Documentation       :d3c, after d3b, 7d
+    Spider (masks)      :d3d, after d3c, 7d
+    Publish (masks)     :d3e, after d3d, 7d
+    Release             :d3f, after d3e, 7d
 ```
 
 ---
 
-## Implementation Timeline
+## 📊 Key Metrics
 
-| Week | Developer 1 | Developer 2 | Developer 3 |
-|------|-------------|-------------|-------------|
-| **1** | TrainingConfig, Trainer, `dfc train` | MergingConfig, Merger, `dfc merge` | Package setup, alignment, match-pose |
-| **2** | Checkpoints, batch, resume | Latent, warping, grid, all modes | Remask, mask-train, FP-mask, export-dfm |
-| **3** | Docs, examples, tests | Docs, examples, tests | Docs, examples, tests |
-| **4** | Spider: datasets/models | Spider: plates/aligned | Spider: faces/masks |
-| **5** | Publish models, deps | Publish merged, versions | Publish masks/XSeg/DFMs |
-| **6** | Integration tests | Integration tests | Release |
+<table>
+<tr>
+<td width="33%" align="center">
 
----
+### 📉 Before
 
-## Key Improvements
+```
+Interactive prompts: ~2,200 lines
+Hardcoded paths: Many
+Type safety: ~10%
+Test coverage: ~20%
+```
 
-| Aspect | Before | After |
-|--------|--------|-------|
-| **Interface** | Interactive prompts | CLI + Python API |
-| **Configuration** | Prompts only | Pydantic + YAML |
-| **Type Safety** | None | 100% |
-| **Paths** | Hardcoded | Any paths |
-| **Testing** | Difficult | Easy |
-| **Publishing** | Manual | PipePublish to Ivy |
-| **Lineage** | None | Automatic via Ivy |
+</td>
+<td width="33%" align="center">
 
----
+### 📈 After
 
-## Metrics
+```
+Interactive prompts: 0
+Hardcoded paths: 0
+Type safety: 100%
+Test coverage: 80%+
+```
 
-| Metric | Value |
-|--------|-------|
-| Commands extracted | 7 |
-| Interactive prompts eliminated | ~2,200 lines |
-| Core logic preserved | ~4,000 lines |
-| New package files | ~62 |
-| Target test coverage | 80%+ |
+</td>
+<td width="33%" align="center">
 
----
+### 📦 New Code
 
-## Success Criteria
+```
+Total files: ~62
+Total lines: ~8,400
+Extracted: ~4,000 lines
+Deleted: ~2,200 lines
+```
 
-### Phase 1
-- [ ] Both packages deployed via Bob
-- [ ] All 7 commands functional
-- [ ] Python APIs available
-- [ ] Zero interactive prompts
-- [ ] Type-safe Pydantic configuration
-- [ ] 80%+ test coverage
-- [ ] Complete documentation
-
-### Phase 2
-- [ ] Spider queries working
-- [ ] PipePublish working
-- [ ] Dependency tracking
-- [ ] Backwards compatible
+</td>
+</tr>
+</table>
 
 ---
 
-## Questions for Stakeholders
+## ✅ Success Criteria
 
-1. **Stash Repository**: Confirm location and naming
-2. **Bob Platform**: Confirm `platform-pipe2024.1` target
-3. **metaswap Package**: Confirm availability via Bob
-4. **DFLObjects Package**: Confirm availability via Bob
-5. **Checkpoints Storage**: Location for pretrained weights
-6. **Ivy TwigType Codes**: Codes for models, aligned faces, outputs
+### Phase 1 Checklist
+
+| Criteria | Status |
+|:---------|:------:|
+| Both packages deployed via Bob | ⬜ |
+| All 7 commands functional via CLI | ⬜ |
+| Python APIs available | ⬜ |
+| Zero interactive prompts | ⬜ |
+| Type-safe Pydantic configuration | ⬜ |
+| 80%+ test coverage | ⬜ |
+| Complete documentation | ⬜ |
+
+### Phase 2 Checklist
+
+| Criteria | Status |
+|:---------|:------:|
+| Spider queries working | ⬜ |
+| PipePublish working | ⬜ |
+| Dependency tracking | ⬜ |
+| Backwards compatible | ⬜ |
+| Integration tests passing | ⬜ |
+
+---
+
+## 🔧 Technical Decisions
+
+### Architecture
+
+| Decision | Rationale |
+|:---------|:----------|
+| **Two packages** | Separation of concerns: training/merging vs face processing |
+| **Click for CLI** | Standard, well-documented, extensible |
+| **Pydantic for config** | Type safety, validation, serialization |
+| **DFL subprocess** | Preserve existing functionality, minimize risk |
+
+### Dependencies
+
+| Package | External Dependencies |
+|:--------|:---------------------|
+| `deepface-core` | metaswap, DFLObjects |
+| `face-processing-toolkit` | DFLObjects, segmentation-models-pytorch |
+
+### Deployment
+
+| Item | Value |
+|:-----|:------|
+| **Repository** | Stash |
+| **Deployment** | Bob artefacts |
+| **Platform** | platform-pipe2024.1 |
+
+---
+
+## ❓ Questions for Stakeholders
+
+> [!IMPORTANT]
+> These questions need answers before implementation begins
+
+| # | Question | Priority |
+|:-:|:---------|:--------:|
+| 1 | Stash repository location and naming | 🔴 High |
+| 2 | Confirm Bob platform target | 🔴 High |
+| 3 | metaswap availability via Bob | 🔴 High |
+| 4 | DFLObjects availability via Bob | 🔴 High |
+| 5 | Checkpoint storage location | 🟡 Medium |
+| 6 | Ivy TwigType codes | 🟡 Medium |
+
+---
+
+## 📚 Documentation
+
+| Document | Description |
+|:---------|:------------|
+| [📖 Extraction Plan](./EXTRACTION_PLAN.md) | Complete extraction plan with configs and timeline |
+| [🏗️ Architecture Diagrams](./ARCHITECTURE_DIAGRAMS.md) | Visual architecture documentation |
+| [📖 Quick Reference](./QUICK_REFERENCE.md) | CLI commands and Python API examples |
+| [📁 File Extraction Map](./FILE_EXTRACTION_MAP.md) | Detailed source-to-target file mapping |
+
+---
+
+## 🚀 Next Steps
+
+1. **Get answers** to stakeholder questions
+2. **Create repositories** in Stash
+3. **Set up CI/CD** for Bob deployment
+4. **Begin Week 1** implementation
+
+---
+
+<div align="center">
+
+### Ready for Implementation ✅
+
+**[📖 Extraction Plan](./EXTRACTION_PLAN.md)** • **[🏗️ Architecture](./ARCHITECTURE_DIAGRAMS.md)** • **[📖 Quick Reference](./QUICK_REFERENCE.md)** • **[📁 File Map](./FILE_EXTRACTION_MAP.md)**
+
+</div>

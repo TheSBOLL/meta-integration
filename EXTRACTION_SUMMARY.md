@@ -266,10 +266,9 @@ Deleted: ~2,200 lines
 |:-:|:---------|:--------:|
 | 1 | Stash repository location and naming | 🔴 High |
 | 2 | Confirm Bob platform target | 🔴 High |
-| 3 | metaswap availability via Bob | 🔴 High |
-| 4 | DFLObjects availability via Bob | 🔴 High |
-| 5 | Checkpoint storage location | 🟡 Medium |
-| 6 | Ivy TwigType codes | 🟡 Medium |
+| 3 | dfl availability via Bob | 🔴 High |
+| 4 | Checkpoint storage location | 🟡 Medium |
+| 5 | Ivy TwigType codes | 🟡 Medium |
 
 ---
 
